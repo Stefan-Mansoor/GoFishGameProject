@@ -3,7 +3,7 @@
  * Students can modify and extend to implement their game.
  * Add your name as an author and the date!
  */
-package ca.sheridancollege.project;
+package ca.sheridancollege.SYST17796_ProjectStarterCode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,11 +14,12 @@ import java.util.Collections;
  *
  * @author dancye
  * @author Paul Bonenfant Jan 2020
+ * @author Jinling Cai April 17, 2021
  */
 public class GroupOfCards {
 
     //The group of cards, stored in an ArrayList
-    private ArrayList<Card> cards;
+    private ArrayList<GoFishCard> cards;
     private int size;//the size of the grouping
 
     public GroupOfCards(int size) {
@@ -30,10 +31,14 @@ public class GroupOfCards {
      *
      * @return the group of cards.
      */
-    public ArrayList<Card> getCards() {
+    public ArrayList<GoFishCard> getCards() {
         return cards;
     }
 
+     public void setCards(ArrayList<GoFishCard> inputCards) {
+        this.cards = inputCards;
+    }
+     
     public void shuffle() {
         Collections.shuffle(cards);
     }
@@ -50,6 +55,14 @@ public class GroupOfCards {
      */
     public void setSize(int size) {
         this.size = size;
+    }
+    
+    public String toString(){
+        String cardsInHand = "";
+        for(GoFishCard card:cards){
+            cardsInHand = cardsInHand + card.toString() + "\n";
+        }
+        return cardsInHand;
     }
 
 }//end class
