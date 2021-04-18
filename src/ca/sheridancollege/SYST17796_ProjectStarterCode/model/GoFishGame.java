@@ -1,20 +1,20 @@
-package ca.sheridancollege.SYST17796_ProjectStarterCode;
+package ca.sheridancollege.SYST17796_ProjectStarterCode.model;
 
-import ca.sheridancollege.SYST17796_ProjectStarterCode.Game;
-import ca.sheridancollege.SYST17796_ProjectStarterCode.GroupOfCards;
+import ca.sheridancollege.SYST17796_ProjectStarterCode.view.UserView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  * This class models Go-Fish Game.
- * @Author Jinling Cai April 17, 2021
+ *
+ * @author Jinling Cai April 17, 2021
+ * @author Moeez Yasir April 18, 2021
  */
 public class GoFishGame extends Game {
 
     private ArrayList<GoFishPlayer> players;
-    private GoFishCard card;
+//    private GoFishCard card;
 
     final private int initialSize = 7;
     private boolean yourTurn = true;
@@ -33,7 +33,8 @@ public class GoFishGame extends Game {
     private int cardsInYourHandCount;
     private int cardsInMachineCount;
     private String cardsInHandString;
-
+    UserView view = new UserView();
+    
     private GroupOfCards machineHand = new GroupOfCards(initialSize);
     private GroupOfCards yourHand = new GroupOfCards(initialSize);
     private ArrayList<GoFishCard> cardsForGame;
@@ -76,14 +77,17 @@ public class GoFishGame extends Game {
      *
      * @param interaction
      */
-    private void processYourTurn(Scanner interaction) {
+//    private void processYourTurn(Scanner interaction) {
+    private void processYourTurn() {
         ArrayList<GoFishCard> cardsPassToYou;
         cardsInHandString = yourHand.toString();
-        System.out.println("you got cards:" + cardsInHandString);
+        view.display("you got cards:\n" + cardsInHandString);
 
         cardsInYourHand = yourHand.getCards();
         cardsInMachine = machineHand.getCards();
-        yourQuestion = getQuestion(interaction, cardsInYourHand);
+//        yourQuestion = getQuestion(interaction, cardsInYourHand);
+        yourQuestion = getQuestion(cardsInYourHand);
+
         cardsPassToYou = GoFishRuleProcessor.getCardsForPass(yourQuestion, cardsInMachine);
 
         if (cardsPassToYou.size() > 0) {
@@ -95,9 +99,9 @@ public class GoFishGame extends Game {
             yourHand.setSize(cardsInYourHand.size());
             yourHand.setCards(cardsInYourHand);
             yourScore = yourScore + scoreToAdd;
-            System.out.println("Now your score:" + yourScore);
+            view.display("Now your score:" + yourScore);
             /**
-             * if machine does not cards in hand it need to pick 7 cards from
+             * if machine does not have cards in hand it need to pick 7 cards from
              * the cards for game if remaining cards less than 7 then pick all
              *
              */
@@ -109,7 +113,7 @@ public class GoFishGame extends Game {
             }
 
         } else {
-            System.out.println("machine said : GO Fish!");
+            view.display("machine said : GO Fish!");
 
             cardsPassToYou = GoFishRuleProcessor.generateHand(1, cardsForGame);
             cardsForGame = GoFishRuleProcessor.refreshCardsForGame(1, cardsForGame);
@@ -129,7 +133,7 @@ public class GoFishGame extends Game {
     private void processMachineTurn() {
         ArrayList<GoFishCard> cardsPassToMachine;
         cardsInHandString = machineHand.toString();
-        System.out.println("machine got cards:" + cardsInHandString);
+        view.display("machine got cards:" + cardsInHandString);
 
         cardsInMachine = machineHand.getCards();
         cardsInYourHand = yourHand.getCards();
@@ -145,7 +149,7 @@ public class GoFishGame extends Game {
             machineHand.setSize(cardsInMachine.size());
             machineHand.setCards(cardsInMachine);
             machineScore = machineScore + scoreToAdd;
-            System.out.println("Now machine score:" + machineScore);
+            view.display("Now machine score:" + machineScore);
             /**
              * if you do not cards in hand it need to pick 7 cards from the
              * cards for game if remaining cards less than 7 then pick all
@@ -158,7 +162,7 @@ public class GoFishGame extends Game {
                 cardsInYourHand = yourHand.getCards();
             }
         } else {
-            System.out.println("you said: GO Fish!");
+            view.display("you said: GO Fish!");
 
             cardsPassToMachine = GoFishRuleProcessor.generateHand(1, cardsForGame);
             cardsForGame = GoFishRuleProcessor.refreshCardsForGame(1, cardsForGame);
@@ -187,7 +191,7 @@ public class GoFishGame extends Game {
             yourHand.setSize(cardsInYourHand.size());
             yourHand.setCards(cardsInYourHand);
             yourScore = yourScore + scoreToAdd;
-            System.out.println("Now your score:" + yourScore);
+            view.display("Now your score:" + yourScore);
         }
 
         for (String value : machineRemainingScore.keySet()) {
@@ -197,7 +201,7 @@ public class GoFishGame extends Game {
             machineHand.setSize(cardsInMachine.size());
             machineHand.setCards(cardsInMachine);
             machineScore = machineScore + scoreToAdd;
-            System.out.println("Now machine score:" + machineScore);
+            view.display("Now machine score:" + machineScore);
         }
     }
 
@@ -205,7 +209,7 @@ public class GoFishGame extends Game {
      *
      */
     public void play() {
-        Scanner interaction = new Scanner(System.in);
+//        Scanner interaction = new Scanner(System.in);
         /**
          * get cards for Go Fish Game totally 52 cards at the beginning
          */
@@ -218,7 +222,8 @@ public class GoFishGame extends Game {
         cardsInMachine = distributeCards(machineHand, initialSize);
 
         cardsInHandString = machineHand.toString();
-        System.out.println("machine got cards:" + cardsInHandString);
+        view.display("(There cards are just displayed as sample. Otherwise, these cards are kept hidden.)");
+        view.display("Machine got cards:\n" + cardsInHandString);
 
         cardsInYourHand = distributeCards(yourHand, initialSize);
         /**
@@ -236,7 +241,7 @@ public class GoFishGame extends Game {
         while (cardsForGameCount != 0 || (cardsInYourHandCount != 0 && cardsInMachineCount != 0)) {
             //It is your turn to ask question
             if (yourTurn) {
-                processYourTurn(interaction);
+                processYourTurn();
             }
             //It is opportunity for machine to ask question
             if (machineTurn) {
@@ -253,10 +258,10 @@ public class GoFishGame extends Game {
             }
             cardsInYourHandCount = cardsInYourHand.size();
             cardsInMachineCount = cardsInMachine.size();
-            System.out.println("Now you have " + cardsInYourHandCount + " cards!");
-            System.out.println("Now machine have " + cardsInMachineCount + " cards!");
-            System.out.println("Now total remaining " + cardsForGameCount + " cards!");
-        }       
+            view.display("You have " + cardsInYourHandCount + " cards!");
+            view.display("Machine have " + cardsInMachineCount + " cards!");
+            view.display("Total remaining " + cardsForGameCount + " cards!");
+        }
         declareWinner();
     }
 
@@ -266,16 +271,16 @@ public class GoFishGame extends Game {
      * @param cardsInHand
      * @return
      */
-    private String getQuestion(Scanner askQuestion, ArrayList<GoFishCard> cardsInHand) {
+    private String getQuestion(ArrayList<GoFishCard> cardsInHand) {
         boolean askValid = false;
         String yourQuestion = "";
         while (!askValid) {
-            System.out.println("please pickup the value you own:");
-            yourQuestion = askQuestion.nextLine().toUpperCase();
+            yourQuestion = view.userSelection("Please pickup the value you own:").toUpperCase();
             for (GoFishCard card : cardsInHand) {
                 String cardInHandValue = card.getValue().name();
                 if (yourQuestion.equals(cardInHandValue)) {
                     askValid = true;
+                    view.display("*********************************************");
                 }
             }
         }
@@ -292,19 +297,20 @@ public class GoFishGame extends Game {
         int cardsCount = cardsInHand.size();
         GoFishCard card = cardsInHand.get(rnd.nextInt(cardsCount));
         String cardInHandValue = card.getValue().name();
-        System.out.println("Do you have:" + cardInHandValue);
+        view.display("Do you have:" + cardInHandValue);
         return cardInHandValue;
     }
 
+    @Override
     public void declareWinner() {
-        System.out.println("Your got :" + yourScore);
-        System.out.println("Machine got :" + machineScore);
-        if(yourScore > machineScore){
-            System.out.println("Congrulations!You are the WINNER!!!");
-        }else if(yourScore < machineScore){
-              System.out.println("Sorry! You lose the game! Try next time.");
-        }else{
-              System.out.println("It is a tie game!");
-        }        
+        view.display("You got :" + yourScore);
+        view.display("Machine got :" + machineScore);
+        if (yourScore > machineScore) {
+            view.display("Congrulations!You are the WINNER!!!");
+        } else if (yourScore < machineScore) {
+            view.display("Sorry! You lose the game! Try next time.");
+        } else {
+            view.display("It is a tie game!");
+        }
     }
 }

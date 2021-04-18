@@ -1,10 +1,9 @@
-package ca.sheridancollege.SYST17796_ProjectStarterCode;
-
-import ca.sheridancollege.SYST17796_ProjectStarterCode.Card;
+package ca.sheridancollege.SYST17796_ProjectStarterCode.model;
 
 /**
  * This class models Go-Fish card
- * @Author Jinling Cai April 17, 2021
+ * @author Jinling Cai April 17, 2021
+ * @author Stefan Mansoor April 16,2021
  */
 public class GoFishCard extends Card {    
 

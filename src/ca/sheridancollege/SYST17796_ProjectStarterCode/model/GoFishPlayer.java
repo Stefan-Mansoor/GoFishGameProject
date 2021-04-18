@@ -1,10 +1,7 @@
-package ca.sheridancollege.SYST17796_ProjectStarterCode;
-
-import ca.sheridancollege.SYST17796_ProjectStarterCode.*;
-
+package ca.sheridancollege.SYST17796_ProjectStarterCode.model;
 /**
  * This class models Go-Fish player
- * @Author Jinling Cai April 17, 2021
+ * @author Jinling Cai April 17, 2021
  */
 public class GoFishPlayer extends Player {
 

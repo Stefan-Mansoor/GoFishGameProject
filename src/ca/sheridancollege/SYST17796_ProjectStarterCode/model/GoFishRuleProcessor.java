@@ -1,4 +1,4 @@
-package ca.sheridancollege.SYST17796_ProjectStarterCode;
+package ca.sheridancollege.SYST17796_ProjectStarterCode.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
