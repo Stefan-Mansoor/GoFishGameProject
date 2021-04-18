@@ -26,6 +26,7 @@ public class PlayGoFishGame {
         players.add(secondPlayer);
 
         GoFishGame goFishGame = new GoFishGame(players);
+        
         view.display("we are all set! Let's play the game!");
         view.display("********************\nGame Rules:\n"
                 + "1. Game will end once one player runs out of cards.\n"
@@ -53,10 +54,12 @@ public class PlayGoFishGame {
                         + "Password Criteria: \n>>>Length should be atleast 8 characters"
                         + "\n>>>Add 1 special characters\n"
                         + "********************");
+        
         String playerPwd = view.userSelection("Please enter your password:");
         boolean pwdValid;
         
         pwdValid = PasswordValidator.validatePassword(playerPwd);
+        
         while (!pwdValid) {
             view.display("The password you have entered is invalid");
             
